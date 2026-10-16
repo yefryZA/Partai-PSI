@@ -46,7 +46,7 @@
             <div class="flex justify-between items-center h-20">
                 <div class="flex items-center space-x-3">
                     <div class="w-16 h-16 rounded-xl bg-white shadow-md border border-slate-100 flex items-center justify-center overflow-hidden p-1.5">
-                        <img src="logo_psi.png" 
+                        <img src="logo_psi.jpeg" 
                              alt="Logo PSI" 
                              class="max-w-full max-h-full object-contain"
                              onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-psi-red rounded-lg flex items-center justify-center text-white\'><i class=\'fa-solid fa-rose text-2xl\'></i></div>';">
@@ -318,36 +318,49 @@
             });
         }
 
-       function renderDpdCards(dpdList) {
+// Daftarkan fungsi ke window agar bisa dipanggil oleh onclick tombol HTML
+window.openWhatsapp = function(rawPhone) {
+    if (!rawPhone) return;
+    
+    // Ambil angka saja (hapus spasi, strip, dll)
+    let cleanNumber = rawPhone.toString().replace(/\D/g, '');
+    
+    // Ubah 08... jadi 628...
+    if (cleanNumber.startsWith('0')) {
+        cleanNumber = '62' + cleanNumber.slice(1);
+    }
+    
+    // Buka WhatsApp di tab baru
+    const url = `https://wa.me/${cleanNumber}`;
+    window.open(url, '_blank');
+};
+
+// 2. Fungsi Render Kartu DPD
+function renderDpdCards(dpdList) {
     const container = document.getElementById('dpd-cards-container');
+    if (!container) return;
     container.innerHTML = '';
 
-    if (dpdList.length === 0) {
+    if (!dpdList || dpdList.length === 0) {
         container.innerHTML = `<p class="col-span-full text-center text-slate-400 text-sm">Belum ada pengurus DPD.</p>`;
         return;
     }
 
     dpdList.forEach(m => {
-        const name = m.nama || m.name;
-        const role = m.jabatan || m.role;
+        const name = m.nama || m.name || 'Tanpa Nama';
+        const role = m.jabatan || m.role || 'Pengurus';
         const rawPhone = m.kontak || m.phone || '';
         const photo = m.foto || m.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=E30613&color=fff`;
 
-        // Format nomor ke standar WhatsApp (mengubah 08... menjadi 628...)
-        let waFormatted = rawPhone.replace(/[^0-9]/g, ''); // Hapus karakter selain angka
-        if (waFormatted.startsWith('0')) {
-            waFormatted = '62' + waFormatted.slice(1);
-        }
-
         container.innerHTML += `
             <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm text-center flex flex-col items-center">
-                <img src="${photo}" class="w-20 h-20 rounded-full object-cover border-2 border-psi-red mb-3">
+                <img src="${photo}" class="w-20 h-20 rounded-full object-cover border-2 border-psi-red mb-3" alt="${name}">
                 <h3 class="font-bold text-slate-800 text-sm">${name}</h3>
                 <span class="bg-red-50 text-psi-red text-xs font-semibold px-2.5 py-0.5 rounded-full mt-1">${role}</span>
                 ${rawPhone ? `
-                    <a href="https://wa.me/\${waFormatted}" target="_blank" class="mt-3 text-xs text-emerald-600 hover:text-emerald-700 font-medium hover:underline flex items-center">
-                        <i class="fa-brands fa-whatsapp mr-1 text-sm"></i>\${rawPhone}
-                    </a>
+                    <button type="button" onclick="openWhatsapp('\${rawPhone}')" class="mt-3 text-xs text-emerald-600 hover:text-emerald-700 font-semibold hover:underline flex items-center cursor-pointer bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
+                        <i class="fa-brands fa-whatsapp mr-1.5 text-sm"></i>\${rawPhone}
+                    </button>
                 ` : ''}
             </div>
         `;
