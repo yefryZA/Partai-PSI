@@ -331,38 +331,27 @@
             });
         }
 
-// 1. Fungsi Utama Pembuka WhatsApp (Handling Otomatis Mobile vs Desktop)
 window.openWhatsapp = function(rawPhone) {
     if (!rawPhone) return;
 
-    // Normalisasi nomor: Ambil digit angka saja
+    // 1. Bersihkan nomor (hanya digit angka)
     let cleanNumber = rawPhone.toString().replace(/\D/g, '');
 
-    // Ubah awalan 08... menjadi 628...
+    // 2. Normalisasi 08... menjadi 628...
     if (cleanNumber.startsWith('0')) {
         cleanNumber = '62' + cleanNumber.slice(1);
     }
 
-    // Deteksi apakah pengguna menggunakan HP/Tablet atau Laptop/PC
+    // 3. Deteksi apakah dibuka dari perangkat HP/Tablet
     const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 
-    let finalUrl = '';
     if (isMobile) {
-        // Untuk Ponsel: Gunakan wa.me agar langsung memicu Aplikasi WhatsApp
-        finalUrl = `https://wa.me/${cleanNumber}`;
+        // Pada HP: Gunakan schema native 'whatsapp://' agar HP langsung membuka aplikasi ke nomor tujuan
+        window.location.href = `whatsapp://send?phone=${cleanNumber}`;
     } else {
-        // Untuk Desktop/Laptop: Langsung buka WhatsApp Web dengan parameter phone
-        finalUrl = `https://web.whatsapp.com/send?phone=${cleanNumber}`;
+        // Pada PC/Laptop: Buka WhatsApp Web di tab baru
+        window.open(`https://web.whatsapp.com/send?phone=${cleanNumber}`, '_blank');
     }
-
-    // Eksekusi pembukaan link secara programatik agar lolos blokir handler/pop-up
-    const link = document.createElement('a');
-    link.href = finalUrl;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
 };
 
 // 2. Contoh Penggunaan dalam Fungsi Render Kartu Pengurus DPD
