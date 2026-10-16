@@ -215,6 +215,19 @@
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
+        // 1. TAMPAKAN SAFE STORAGE CHECK DI SINI (Sebelum Firebase initialized)
+    if (navigator.storage && navigator.storage.persist) {
+        navigator.storage.persist().then((persistent) => {
+            if (persistent) {
+                console.log("Penyimpanan permanen diizinkan oleh browser.");
+            } else {
+                console.warn("Penyimpanan permanen ditolak. Aplikasi berjalan mode session.");
+            }
+        }).catch((err) => {
+            console.warn("Gagal meminta izin persistent storage:", err.message);
+        });
+    }
+
         const firebaseConfig = {
             apiKey: "AIzaSyB8kpAMYAg1tC_8AuiQo3N2ecdrd4XbfuQ",
             authDomain: "pt-mbu.firebaseapp.com",
@@ -318,24 +331,41 @@
             });
         }
 
-// Daftarkan fungsi ke window agar bisa dipanggil oleh onclick tombol HTML
+// 1. Fungsi Utama Pembuka WhatsApp (Handling Otomatis Mobile vs Desktop)
 window.openWhatsapp = function(rawPhone) {
     if (!rawPhone) return;
-    
-    // Ambil angka saja (hapus spasi, strip, dll)
+
+    // Normalisasi nomor: Ambil digit angka saja
     let cleanNumber = rawPhone.toString().replace(/\D/g, '');
-    
-    // Ubah 08... jadi 628...
+
+    // Ubah awalan 08... menjadi 628...
     if (cleanNumber.startsWith('0')) {
         cleanNumber = '62' + cleanNumber.slice(1);
     }
-    
-    // Buka WhatsApp di tab baru
-    const url = `https://wa.me/${cleanNumber}`;
-    window.open(url, '_blank');
+
+    // Deteksi apakah pengguna menggunakan HP/Tablet atau Laptop/PC
+    const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+    let finalUrl = '';
+    if (isMobile) {
+        // Untuk Ponsel: Gunakan wa.me agar langsung memicu Aplikasi WhatsApp
+        finalUrl = `https://wa.me/${cleanNumber}`;
+    } else {
+        // Untuk Desktop/Laptop: Langsung buka WhatsApp Web dengan parameter phone
+        finalUrl = `https://web.whatsapp.com/send?phone=${cleanNumber}`;
+    }
+
+    // Eksekusi pembukaan link secara programatik agar lolos blokir handler/pop-up
+    const link = document.createElement('a');
+    link.href = finalUrl;
+    link.target = '_blank';
+    link.rel = 'noopener noreferrer';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
 };
 
-// 2. Fungsi Render Kartu DPD
+// 2. Contoh Penggunaan dalam Fungsi Render Kartu Pengurus DPD
 function renderDpdCards(dpdList) {
     const container = document.getElementById('dpd-cards-container');
     if (!container) return;
