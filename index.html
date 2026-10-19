@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PSI DPD Kota Cilegon - Dashboard Publik</title>
+    <title>Dashboard PSI Kota Cilegon</title>
     
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -13,37 +13,64 @@
                 extend: {
                     colors: {
                         psi: {
-                            red: '#E30613',
-                            dark: '#111827',
-                            light: '#F9FAFB',
-                            gray: '#4B5563',
-                        }
+                            red: '#E50914',
+                            redhover: '#C20710',
+                            dark: '#111111',
+                            black: '#0A0A0A',
+                            graybg: '#F8FAFC'
+                        },
+                        'psi-red': '#E50914',
+                        'psi-redhover': '#C20710',
+                        'psi-dark': '#111111',
+                        'psi-black': '#0A0A0A'
                     }
                 }
             }
         }
     </script>
     
-    <!-- Font Awesome Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Google Fonts: Inter -->
+    <!-- Google Fonts Inter -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Chart.js for Visualizations -->
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <style>
-        body { font-family: 'Inter', sans-serif; }
-        .modal-active { display: flex !important; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #F8FAFC;
+        }
+        /* Custom Scrollbar Presisi Admin */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #E50914;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #C20710;
+        }
+        /* Glass Card Styling persis Admin */
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(226, 232, 240, 0.8);
+        }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-800 min-h-screen flex flex-col">
+<body class="text-slate-800 flex flex-col min-h-screen">
 
-    <!-- HEADER BRANDING PSI -->
-    <header class="bg-white border-b border-slate-200 sticky top-0 z-30 shadow-sm">
+    <!-- HEADER BRANDING PSI (PERSIS DENGAN ADMIN) -->
+    <header class="sticky top-0 z-40 bg-white border-b border-slate-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between items-center h-20">
+            <div class="flex items-center justify-between h-20">
+                
                 <div class="flex items-center space-x-3">
                     <div class="w-16 h-16 rounded-xl bg-white shadow-md border border-slate-100 flex items-center justify-center overflow-hidden p-1.5">
                         <img src="logo_psi.jpeg" 
@@ -51,85 +78,99 @@
                              class="max-w-full max-h-full object-contain"
                              onerror="this.onerror=null; this.parentElement.innerHTML='<div class=\'w-full h-full bg-psi-red rounded-lg flex items-center justify-center text-white\'><i class=\'fa-solid fa-rose text-2xl\'></i></div>';">
                     </div>
+                    
                     <div>
                         <div class="flex items-center space-x-2">
                             <span class="font-extrabold text-2xl tracking-tight text-psi-dark">PSI</span>
-                            <span class="bg-psi-red text-white text-xs font-bold px-2.5 py-0.5 rounded uppercase tracking-wider">DPD CILEGON</span>
+                            <span class="bg-psi-red text-white text-xs font-bold px-2 py-0.5 rounded uppercase tracking-wider">DPD CILEGON</span>
                         </div>
                         <p class="text-xs text-slate-500 font-medium">Partai Solidaritas Indonesia • Kota Cilegon</p>
                     </div>
                 </div>
 
-                <div class="flex items-center space-x-2 bg-emerald-50 border border-emerald-200 text-emerald-700 px-3 py-1.5 rounded-full text-xs font-semibold">
+                <div class="flex items-center space-x-2 bg-emerald-50 border border-emerald-200 text-emerald-700 px-3.5 py-1.5 rounded-xl text-xs font-semibold shadow-sm">
                     <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                     <span>Portal Data Publik</span>
                 </div>
+
             </div>
         </div>
     </header>
 
-    <!-- MAIN CONTENT -->
-    <main class="flex-grow max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-10">
-
-        <!-- Welcome Banner -->
-        <div class="bg-gradient-to-r from-psi-dark via-slate-800 to-psi-red rounded-2xl p-6 sm:p-8 text-white shadow-xl flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <!-- HERO BANNER (CONTAINER ADMIN MOOD) -->
+    <section class="bg-gradient-to-r from-psi-black via-psi-dark to-slate-900 text-white py-8 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        <div class="absolute right-0 top-0 bottom-0 opacity-10 pointer-events-none flex items-center pr-10">
+            <i class="fa-solid fa-rose text-[220px] text-psi-red"></i>
+        </div>
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row md:items-center justify-between gap-4 relative z-10">
             <div>
+                <span class="inline-flex items-center gap-1.5 text-xs font-bold tracking-widest uppercase bg-psi-red/20 text-red-400 px-3 py-1 rounded-full border border-psi-red/30 mb-2">
+                    <i class="fa-solid fa-circle text-[8px] animate-pulse"></i> KUAT - BIJAK - SETIA
+                </span>
                 <h1 class="text-2xl sm:text-3xl font-extrabold tracking-tight">Dashboard Struktur & Statistik Kader</h1>
-                <p class="text-slate-300 text-sm mt-1">Sistem Informasi Sebaran Anggota DPD & 8 DPC Kecamatan se-Kota Cilegon.</p>
+                <p class="text-slate-300 text-sm mt-1 max-w-xl">Sistem Informasi Sebaran Anggota DPD & 8 DPC Kecamatan se-Kota Cilegon.</p>
             </div>
-            <div class="bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 text-xs font-medium">
-                <i class="fa-solid fa-signal mr-1"></i> <span id="firebase-status">Menghubungkan Database...</span>
+            
+            <div class="bg-white/10 backdrop-blur-md px-4 py-2.5 rounded-xl border border-white/20 text-xs font-semibold flex items-center space-x-2">
+                <i class="fa-solid fa-signal text-emerald-400 animate-pulse"></i> 
+                <span id="firebase-status">Menghubungkan Database...</span>
             </div>
         </div>
+    </section>
 
-        <!-- Metric Summaries (KPI Cards) -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-                <div class="w-12 h-12 rounded-xl bg-red-50 text-psi-red flex items-center justify-center text-xl font-bold">
+    <!-- MAIN CONTENT CONTAINER (CONTAINER ADMIN STYLE) -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 flex-1 w-full space-y-8">
+
+        <!-- METRIC SUMMARIES (CONTAINER CARD KINCLONG SEPERTI ADMIN) -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                <div class="w-12 h-12 rounded-xl bg-red-50 text-psi-red border border-red-100 flex items-center justify-center text-xl font-bold">
                     <i class="fa-solid fa-users"></i>
                 </div>
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Total Pengurus & Kader</p>
-                    <h3 class="text-2xl font-extrabold text-slate-800" id="stat-total">0</h3>
+                    <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Total Pengurus & Kader</p>
+                    <h3 class="text-2xl font-extrabold text-psi-dark" id="stat-total">0</h3>
                 </div>
             </div>
 
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-                <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center text-xl font-bold">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                <div class="w-12 h-12 rounded-xl bg-slate-100 text-psi-dark border border-slate-200 flex items-center justify-center text-xl font-bold">
                     <i class="fa-solid fa-landmark"></i>
                 </div>
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Pengurus DPD</p>
-                    <h3 class="text-2xl font-extrabold text-slate-800" id="stat-dpd">0</h3>
+                    <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Pengurus DPD</p>
+                    <h3 class="text-2xl font-extrabold text-psi-dark" id="stat-dpd">0</h3>
                 </div>
             </div>
 
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 flex items-center justify-center text-xl font-bold">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-600 border border-emerald-100 flex items-center justify-center text-xl font-bold">
                     <i class="fa-solid fa-map-location-dot"></i>
                 </div>
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Cakupan DPC</p>
-                    <h3 class="text-2xl font-extrabold text-slate-800">8 / 8</h3>
+                    <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Cakupan DPC</p>
+                    <h3 class="text-2xl font-extrabold text-psi-dark">8 / 8</h3>
                 </div>
             </div>
 
-            <div class="bg-white p-5 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
-                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 flex items-center justify-center text-xl font-bold">
+            <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex items-center space-x-4">
+                <div class="w-12 h-12 rounded-xl bg-blue-50 text-blue-600 border border-blue-100 flex items-center justify-center text-xl font-bold">
                     <i class="fa-solid fa-chart-line"></i>
                 </div>
                 <div>
-                    <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">Rata-rata Kader/DPC</p>
-                    <h3 class="text-2xl font-extrabold text-slate-800" id="stat-avg">0</h3>
+                    <p class="text-xs font-bold uppercase tracking-wider text-slate-400">Rata-rata Kader/DPC</p>
+                    <h3 class="text-2xl font-extrabold text-psi-dark" id="stat-avg">0</h3>
                 </div>
             </div>
         </div>
 
-        <!-- Charts Section -->
+        <!-- CHARTS SECTION CONTAINER -->
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
             <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200 shadow-sm">
-                <h2 class="text-lg font-bold text-slate-800 mb-1">Sebaran Kader per DPC Kecamatan</h2>
-                <p class="text-xs text-slate-500 mb-6">Jumlah pengurus terdaftar di 8 Kecamatan se-Kota Cilegon</p>
+                <div class="pb-4 border-b border-slate-100 mb-6">
+                    <h3 class="font-extrabold text-lg text-psi-dark">Sebaran Kader per DPC Kecamatan</h3>
+                    <p class="text-xs text-slate-500">Jumlah pengurus terdaftar di 8 Kecamatan se-Kota Cilegon</p>
+                </div>
                 <div class="h-72">
                     <canvas id="chart-dpc"></canvas>
                 </div>
@@ -137,96 +178,132 @@
 
             <div class="bg-white p-6 rounded-2xl border border-slate-200 shadow-sm flex flex-col justify-between">
                 <div>
-                    <h2 class="text-lg font-bold text-slate-800 mb-1">Proporsi Tingkatan</h2>
-                    <p class="text-xs text-slate-500 mb-6">Fungsionaris DPD vs DPC</p>
+                    <div class="pb-4 border-b border-slate-100 mb-6">
+                        <h3 class="font-extrabold text-lg text-psi-dark">Proporsi Tingkatan</h3>
+                        <p class="text-xs text-slate-500">Fungsionaris DPD vs DPC</p>
+                    </div>
                     <div class="h-56 relative flex items-center justify-center">
                         <canvas id="chart-proportion"></canvas>
                     </div>
                 </div>
-                <div class="pt-4 border-t border-slate-100 text-xs text-slate-400 text-center">
+                <div class="pt-4 border-t border-slate-100 text-xs text-slate-400 text-center font-medium">
                     Data Diperbarui Secara Realtime
                 </div>
             </div>
         </div>
 
-        <!-- SECTION DPD STRUCTURE -->
-        <div class="space-y-6 pt-4">
-            <div class="flex items-center space-x-3 border-b-2 border-psi-red pb-2">
-                <i class="fa-solid fa-landmark text-psi-red text-xl"></i>
-                <h2 class="text-xl font-bold text-slate-800">Pengurus DPD PSI Kota Cilegon</h2>
+        <!-- DPD SECTION CONTAINER -->
+        <div class="pt-4">
+            <div class="flex items-center justify-between mb-6 pb-3 border-b border-slate-200">
+                <div>
+                    <h2 class="text-xl font-extrabold text-psi-dark flex items-center gap-2">
+                        <span class="w-2 h-6 bg-psi-red rounded-full inline-block"></span>
+                        Pengurus DPD PSI Kota Cilegon
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Dewan Pimpinan Daerah Kota Cilegon</p>
+                </div>
+                <span class="bg-red-50 text-psi-red border border-red-100 font-semibold text-xs px-3 py-1 rounded-full">Tingkat DPD</span>
             </div>
-            <div id="dpd-cards-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+            <div id="dpd-cards-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
                 <!-- Injected via JS -->
             </div>
         </div>
 
-        <!-- SECTION DPC GRID (DRILL DOWN MODAL) -->
-        <div class="space-y-6 pt-4">
-            <div class="flex items-center justify-between border-b-2 border-slate-300 pb-2">
-                <div class="flex items-center space-x-3">
-                    <i class="fa-solid fa-city text-slate-700 text-xl"></i>
-                    <h2 class="text-xl font-bold text-slate-800">Struktur DPC Kecamatan</h2>
+        <!-- DPC SECTION CONTAINER (PERSIS KODINGAN ADMIN) -->
+        <div class="pt-4">
+            <div class="flex items-center justify-between mb-6 pb-3 border-b border-slate-200">
+                <div>
+                    <h2 class="text-xl font-extrabold text-psi-dark flex items-center gap-2">
+                        <span class="w-2 h-6 bg-psi-black rounded-full inline-block"></span>
+                        Struktur DPC Kecamatan (8 Kecamatan)
+                    </h2>
+                    <p class="text-xs text-slate-500 mt-0.5">Klik pada kartu DPC untuk membuka struktur lengkap & daftar anggotanya</p>
                 </div>
-                <span class="text-xs text-slate-500 font-medium bg-slate-200 px-2.5 py-1 rounded-lg">Klik DPC untuk melihat detail</span>
+                <span class="bg-slate-100 text-slate-700 border border-slate-200 font-semibold text-xs px-3 py-1 rounded-full">Pilih DPC</span>
             </div>
 
-            <div id="dpc-grid-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div id="dpc-grid-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
                 <!-- Injected via JS -->
             </div>
         </div>
 
     </main>
 
-    <!-- DRILL DOWN MODAL -->
-    <div id="dpc-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[85vh] overflow-y-auto shadow-2xl border border-slate-100">
-            <div class="bg-psi-dark text-white p-6 flex justify-between items-center sticky top-0 z-10">
+    <!-- FOOTER ADMIN STYLE -->
+    <footer class="bg-psi-dark text-slate-400 py-6 border-t border-slate-800 text-center text-xs mt-12">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-2">
+            <p>&copy; 2026 DPD Partai Solidaritas Indonesia (PSI) Kota Cilegon. All rights reserved.</p>
+            <p class="text-slate-500">Portal Informasi Kepengurusan Transparan & Realtime.</p>
+        </div>
+    </footer>
+
+    <!-- MODAL DRILL-DOWN DPC DETAIL (FULL ADMIN STYLE) -->
+    <div id="dpcModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+        <div class="bg-white w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden transform scale-95 transition-all duration-300 border border-slate-200 flex flex-col max-h-[90vh]">
+            
+            <div class="bg-gradient-to-r from-psi-black to-psi-dark text-white p-6 relative">
+                <button onclick="closeDpcModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-psi-red rounded-lg flex items-center justify-center font-bold text-lg">
-                        <i class="fa-solid fa-flag"></i>
+                    <div class="w-12 h-12 bg-psi-red rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-md">
+                        <i class="fa-solid fa-building-flag"></i>
                     </div>
                     <div>
-                        <h3 class="text-xl font-extrabold" id="modal-dpc-title">DPC KECAMATAN</h3>
-                        <p class="text-xs text-slate-300">Daftar Pengurus & Anggota Kader</p>
+                        <span class="text-xs font-bold text-psi-red tracking-widest uppercase bg-white/10 px-2.5 py-0.5 rounded-full">Struktur DPC Kecamatan</span>
+                        <h3 id="modal-dpc-title" class="text-2xl font-extrabold text-white mt-0.5">DPC Cibeber</h3>
                     </div>
                 </div>
-                <button onclick="closeDpcModal()" class="w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 flex items-center justify-center text-white transition">
-                    <i class="fa-solid fa-xmark"></i>
+            </div>
+
+            <div class="p-6 overflow-y-auto space-y-6 flex-1">
+                <div>
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+                        <i class="fa-solid fa-shield-halved text-psi-red"></i> Pengurus Inti DPC
+                    </h4>
+                    <div id="modal-core-leaders" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+
+                <div>
+                    <div class="flex items-center justify-between mb-3">
+                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                            <i class="fa-solid fa-users text-psi-dark"></i> Daftar Anggota / Kader DPC
+                        </h4>
+                        <span id="modal-member-count" class="text-xs bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded-full font-semibold">0 Anggota</span>
+                    </div>
+
+                    <div id="modal-members-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <!-- Rendered by JS -->
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-slate-50 px-6 py-4 border-t border-slate-200 flex justify-end">
+                <button onclick="closeDpcModal()" class="px-5 py-2 bg-slate-800 hover:bg-slate-900 text-white font-semibold text-sm rounded-xl transition">
+                    Tutup Detail
                 </button>
             </div>
 
-            <div class="p-6 space-y-4">
-                <div id="modal-dpc-list" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <!-- Injected via JS -->
-                </div>
-            </div>
         </div>
     </div>
-
-    <!-- FOOTER -->
-    <footer class="bg-white border-t border-slate-200 py-6 mt-12">
-        <div class="max-w-7xl mx-auto px-4 text-center text-xs text-slate-500">
-            <p>© 2026 DPD Partai Solidaritas Indonesia (PSI) Kota Cilegon.</p>
-        </div>
-    </footer>
 
     <!-- FIREBASE & JS LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getDatabase, ref, onValue } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
 
-        // 1. TAMPAKAN SAFE STORAGE CHECK DI SINI (Sebelum Firebase initialized)
-    if (navigator.storage && navigator.storage.persist) {
-        navigator.storage.persist().then((persistent) => {
-            if (persistent) {
-                console.log("Penyimpanan permanen diizinkan oleh browser.");
-            } else {
-                console.warn("Penyimpanan permanen ditolak. Aplikasi berjalan mode session.");
-            }
-        }).catch((err) => {
-            console.warn("Gagal meminta izin persistent storage:", err.message);
-        });
-    }
+        if (navigator.storage && navigator.storage.persist) {
+            navigator.storage.persist().then((persistent) => {
+                if (persistent) {
+                    console.log("Penyimpanan permanen diizinkan.");
+                }
+            }).catch((err) => {
+                console.warn("Gagal persistent storage:", err.message);
+            });
+        }
 
         const firebaseConfig = {
             apiKey: "AIzaSyB8kpAMYAg1tC_8AuiQo3N2ecdrd4XbfuQ",
@@ -248,7 +325,6 @@
         let dpcChart = null;
         let propChart = null;
 
-        // Baca data realtime dari Firebase
         onValue(membersRef, (snapshot) => {
             const data = snapshot.val();
             document.getElementById('firebase-status').innerText = "Database: Terhubung";
@@ -270,12 +346,10 @@
             const dpd = data.filter(m => m.level === 'DPD');
             const dpc = data.filter(m => m.level === 'DPC');
 
-            // Render KPIs
             document.getElementById('stat-total').innerText = data.length;
             document.getElementById('stat-dpd').innerText = dpd.length;
             document.getElementById('stat-avg').innerText = (dpc.length / 8).toFixed(1);
 
-            // Render Charts
             const dpcCounts = {};
             window.allDistricts.forEach(d => dpcCounts[d] = 0);
             dpc.forEach(m => {
@@ -300,7 +374,7 @@
                     datasets: [{
                         label: 'Kader',
                         data: window.allDistricts.map(d => dpcCounts[d]),
-                        backgroundColor: '#E30613',
+                        backgroundColor: '#E50914',
                         borderRadius: 6
                     }]
                 },
@@ -320,7 +394,7 @@
                     labels: ['DPD', 'DPC'],
                     datasets: [{
                         data: [dpdCount, dpcCount],
-                        backgroundColor: ['#111827', '#E30613']
+                        backgroundColor: ['#0F172A', '#E50914']
                     }]
                 },
                 options: {
@@ -331,134 +405,152 @@
             });
         }
 
-window.openWhatsapp = function(rawPhone) {
-    if (!rawPhone) return;
-
-    // 1. Bersihkan nomor (hanya digit angka)
-    let cleanNumber = rawPhone.toString().replace(/\D/g, '');
-
-    // 2. Normalisasi nomor awal:
-    // jika diawali '0', ubah ke '62'
-    if (cleanNumber.startsWith('0')) {
-        cleanNumber = '62' + cleanNumber.slice(1);
-    } 
-    // jika pengguna memasukkan tanpa 0 / 62 (misal: 812345678), tambahkan '62'
-    else if (!cleanNumber.startsWith('62')) {
-        cleanNumber = '62' + cleanNumber;
-    }
-
-    // 3. Gunakan URL universal wa.me yang kompatibel di semua perangkat (HP & PC)
-    const waUrl = `https://wa.me/${cleanNumber}`;
-    
-    // Buka di tab/jendela baru
-    window.open(waUrl, '_blank');
-};
-
-function renderDpdCards(dpdList) {
-    const container = document.getElementById('dpd-cards-container');
-    if (!container) return;
-    container.innerHTML = '';
-
-    if (!dpdList || dpdList.length === 0) {
-        container.innerHTML = `<p class="col-span-full text-center text-slate-400 text-sm">Belum ada pengurus DPD.</p>`;
-        return;
-    }
-
-    dpdList.forEach(m => {
-        const name = m.nama || m.name || 'Tanpa Nama';
-        const role = m.jabatan || m.role || 'Pengurus';
-        const rawPhone = m.kontak || m.phone || '';
-        const photo = m.foto || m.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=E30613&color=fff`;
-
-        // 1. Bersihkan dan format nomor HP langsung di dalam loop
-        let waUrl = '#';
-        if (rawPhone) {
-            let cleanNumber = rawPhone.toString().replace(/\D/g, '');
-            if (cleanNumber.startsWith('0')) {
-                cleanNumber = '62' + cleanNumber.slice(1);
-            } else if (!cleanNumber.startsWith('62')) {
-                cleanNumber = '62' + cleanNumber;
-            }
-            // URL langsung ke obrolan WhatsApp
-            waUrl = `https://wa.me/${cleanNumber}`;
-        }
-
-        // 2. Render kartu dengan variabel yang sudah diperbaiki (tanpa tanda \)
-        container.innerHTML += `
-            <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm text-center flex flex-col items-center">
-                <img src="${photo}" class="w-20 h-20 rounded-full object-cover border-2 border-psi-red mb-3" alt="${name}">
-                <h3 class="font-bold text-slate-800 text-sm">${name}</h3>
-                <span class="bg-red-50 text-psi-red text-xs font-semibold px-2.5 py-0.5 rounded-full mt-1">${role}</span>
-                ${rawPhone ? `
-                    <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="mt-3 text-xs text-emerald-600 hover:text-emerald-700 font-semibold hover:underline flex items-center cursor-pointer bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">
-                        <i class="fa-brands fa-whatsapp mr-1.5 text-sm"></i>${rawPhone}
-                    </a>
-                ` : ''}
-            </div>
-        `;
-    });
-}
-
-        function renderDpcGrid(dpcCounts) {
-            const container = document.getElementById('dpc-grid-container');
+        function renderDpdCards(dpdList) {
+            const container = document.getElementById('dpd-cards-container');
+            if (!container) return;
             container.innerHTML = '';
 
-            window.allDistricts.forEach(dist => {
-                const count = dpcCounts[dist] || 0;
-                const ketua = window.membersList.find(m => m.level === 'DPC' && (m.dpc === dist || m.district === dist) && (m.jabatan || m.role || '').toLowerCase().includes('ketua'));
-                const ketuaName = ketua ? (ketua.nama || ketua.name) : 'Belum Ditentukan';
-                const avatar = (ketua && (ketua.foto || ketua.photo)) ? (ketua.foto || ketua.photo) : `https://ui-avatars.com/api/?name=${encodeURIComponent(dist)}&background=111827&color=fff`;
+            if (!dpdList || dpdList.length === 0) {
+                container.innerHTML = `<p class="col-span-full text-center text-slate-400 text-sm py-4">Belum ada pengurus DPD.</p>`;
+                return;
+            }
+
+            dpdList.forEach(m => {
+                const name = m.nama || m.name || 'Tanpa Nama';
+                const role = m.jabatan || m.role || 'Pengurus';
+                const rawPhone = m.kontak || m.phone || '';
+                const photo = m.foto || m.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=E50914&color=fff`;
+
+                let waUrl = '#';
+                if (rawPhone) {
+                    let cleanNumber = rawPhone.toString().replace(/\D/g, '');
+                    if (cleanNumber.startsWith('0')) {
+                        cleanNumber = '62' + cleanNumber.slice(1);
+                    } else if (!cleanNumber.startsWith('62')) {
+                        cleanNumber = '62' + cleanNumber;
+                    }
+                    waUrl = `https://wa.me/${cleanNumber}`;
+                }
 
                 container.innerHTML += `
-                    <div onclick="openDpcModal('${dist}')" class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:border-psi-red cursor-pointer transition group">
-                        <div class="flex items-center justify-between mb-3">
-                            <span class="text-xs font-bold text-slate-400">DPC KECAMATAN</span>
-                            <span class="text-[10px] bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-bold">${count} Anggota</span>
-                        </div>
-                        <div class="flex items-center space-x-3">
-                            <img src="${avatar}" class="w-12 h-12 rounded-full object-cover border border-slate-200">
-                            <div>
-                                <h4 class="font-bold text-slate-800 group-hover:text-psi-red transition">${dist}</h4>
-                                <p class="text-xs text-slate-500">${ketuaName}</p>
-                            </div>
-                        </div>
+                    <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm text-center flex flex-col items-center hover:shadow-md transition">
+                        <img src="${photo}" class="w-20 h-20 rounded-full object-cover border-2 border-psi-red mb-3 shadow-sm" alt="${name}">
+                        <h3 class="font-extrabold text-slate-800 text-sm">${name}</h3>
+                        <span class="bg-red-50 text-psi-red text-xs font-semibold px-2.5 py-0.5 rounded-full mt-1 border border-red-100">${role}</span>
+                        ${rawPhone ? `
+                            <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="mt-3 text-xs text-emerald-600 hover:text-emerald-700 font-semibold hover:underline flex items-center cursor-pointer bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 transition">
+                                <i class="fa-brands fa-whatsapp mr-1.5 text-sm"></i>${rawPhone}
+                            </a>
+                        ` : ''}
                     </div>
                 `;
             });
         }
 
+       function renderDpcGrid(dpcCounts) {
+    const container = document.getElementById('dpc-grid-container');
+    if (!container) return;
+    container.innerHTML = '';
+
+    window.allDistricts.forEach(dist => {
+        const count = dpcCounts[dist] || 0;
+        const ketua = window.membersList.find(m => m.level === 'DPC' && (m.dpc === dist || m.district === dist) && (m.jabatan || m.role || '').toLowerCase().includes('ketua'));
+        const ketuaName = ketua ? (ketua.nama || ketua.name) : 'Belum Ada Ketua';
+        const avatar = (ketua && (ketua.foto || ketua.photo)) ? (ketua.foto || ketua.photo) : `https://ui-avatars.com/api/?name=${encodeURIComponent(dist)}&background=0A0A0A&color=fff`;
+
+        container.innerHTML += `
+            <div onclick="openDpcModal('${dist}')" class="glass-card rounded-2xl p-5 shadow-sm hover:shadow-xl hover:-translate-y-1.5 border border-slate-200/80 hover:border-psi-red/60 relative overflow-hidden cursor-pointer transition-all duration-300 group">
+                <!-- ACCENT RED LINE AT TOP ON HOVER -->
+                <div class="absolute top-0 left-0 right-0 h-1 bg-transparent group-hover:bg-psi-red transition-all duration-300"></div>
+                
+                <div class="flex items-center justify-between mb-3.5">
+                    <span class="text-[10px] font-extrabold tracking-wider text-psi-red uppercase bg-red-50 border border-red-100 group-hover:bg-psi-red group-hover:text-white group-hover:border-psi-red transition-all duration-300 px-2.5 py-1 rounded-md">
+                        DPC KECAMATAN
+                    </span>
+                    <span class="text-xs bg-slate-100 text-slate-700 group-hover:bg-slate-800 group-hover:text-white transition-all duration-300 px-2.5 py-0.5 rounded-full font-bold">
+                        ${count} Anggota
+                    </span>
+                </div>
+                
+                <div class="flex items-center space-x-3.5">
+                    <img src="${avatar}" class="w-12 h-12 rounded-full object-cover border-2 border-slate-100 group-hover:border-psi-red shadow-sm transition-all duration-300" alt="${dist}">
+                    <div>
+                        <h4 class="font-extrabold text-slate-800 text-base group-hover:text-psi-red transition-colors duration-300">${dist}</h4>
+                        <p class="text-xs text-slate-500 font-medium group-hover:text-slate-700 transition-colors">${ketuaName}</p>
+                    </div>
+                </div>
+            </div>
+        `;
+    });
+}
+
         window.openDpcModal = function(distName) {
             const members = window.membersList.filter(m => m.level === 'DPC' && (m.dpc === distName || m.district === distName));
-            document.getElementById('modal-dpc-title').innerText = `DPC KECAMATAN ${distName.toUpperCase()}`;
             
-            const list = document.getElementById('modal-dpc-list');
-            list.innerHTML = '';
+            document.getElementById('modal-dpc-title').innerText = `DPC ${distName}`;
+            document.getElementById('modal-member-count').innerText = `${members.length} Anggota`;
 
-            if (members.length === 0) {
-                list.innerHTML = `<p class="col-span-full text-center text-slate-400 text-xs py-4">Belum ada kader terdaftar untuk DPC ini.</p>`;
+            const coreContainer = document.getElementById('modal-core-leaders');
+            const membersContainer = document.getElementById('modal-members-list');
+            
+            coreContainer.innerHTML = '';
+            membersContainer.innerHTML = '';
+
+            const coreRoles = ['ketua', 'sekretaris', 'bendahara', 'wakil ketua', 'ketua harian'];
+            const coreMembers = members.filter(m => coreRoles.some(r => (m.jabatan || m.role || '').toLowerCase().includes(r)));
+            const otherMembers = members.filter(m => !coreRoles.some(r => (m.jabatan || m.role || '').toLowerCase().includes(r)));
+
+            if (coreMembers.length === 0) {
+                coreContainer.innerHTML = `<p class="col-span-full text-slate-400 text-xs py-2">Belum ada pengurus inti terdaftar.</p>`;
             } else {
-                members.forEach(m => {
+                coreMembers.forEach(m => {
                     const name = m.nama || m.name;
                     const role = m.jabatan || m.role;
-                    const photo = m.foto || m.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=E30613&color=fff`;
+                    const photo = m.foto || m.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=E50914&color=fff`;
 
-                    list.innerHTML += `
-                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 flex items-center space-x-3">
-                            <img src="${photo}" class="w-10 h-10 rounded-full object-cover border border-slate-200">
+                    coreContainer.innerHTML += `
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center space-x-3">
+                            <img src="${photo}" class="w-10 h-10 rounded-full object-cover border border-slate-300">
                             <div>
                                 <h5 class="text-xs font-bold text-slate-800">${name}</h5>
-                                <p class="text-[10px] text-psi-red font-semibold">${role}</p>
+                                <p class="text-[11px] text-psi-red font-semibold">${role}</p>
                             </div>
                         </div>
                     `;
                 });
             }
 
-            document.getElementById('dpc-modal').classList.add('modal-active');
+            if (otherMembers.length === 0) {
+                membersContainer.innerHTML = `<p class="col-span-full text-slate-400 text-xs py-2">Belum ada kader/anggota tambahan.</p>`;
+            } else {
+                otherMembers.forEach(m => {
+                    const name = m.nama || m.name;
+                    const role = m.jabatan || m.role || 'Kader';
+                    const photo = m.foto || m.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=0F172A&color=fff`;
+
+                    membersContainer.innerHTML += `
+                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center space-x-3">
+                            <img src="${photo}" class="w-9 h-9 rounded-full object-cover border border-slate-300">
+                            <div>
+                                <h5 class="text-xs font-bold text-slate-800">${name}</h5>
+                                <p class="text-[10px] text-slate-500">${role}</p>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            const modal = document.getElementById('dpcModal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.querySelector('div').classList.remove('scale-95');
+            modal.querySelector('div').classList.add('scale-100');
         };
 
         window.closeDpcModal = function() {
-            document.getElementById('dpc-modal').classList.remove('modal-active');
+            const modal = document.getElementById('dpcModal');
+            modal.classList.add('opacity-0', 'pointer-events-none');
+            modal.querySelector('div').classList.remove('scale-100');
+            modal.querySelector('div').classList.add('scale-95');
         };
     </script>
 </body>
