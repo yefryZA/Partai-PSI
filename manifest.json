@@ -1,0 +1,25 @@
+{
+  "short_name": "PSI Cilegon",
+  "name": "Dashboard PSI Kota Cilegon",
+  "description": "Aplikasi Dashboard Resmi PSI Kota Cilegon",
+  "start_url": "https://yefryza.github.io/Partai-PSI/",
+  "scope": "https://yefryza.github.io/Partai-PSI/",
+  "display": "standalone",
+  "background_color": "#F8FAFC",
+  "theme_color": "#E50914",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "https://yefryza.github.io/Partai-PSI/logo_psi.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "https://yefryza.github.io/Partai-PSI/logo_psi.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ]
+}
