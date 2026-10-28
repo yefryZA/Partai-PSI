@@ -285,36 +285,49 @@
             "Purwakarta": ["Purwakarta", "Pabean", "Kamanisan", "Kotabumi"]
         };
 
-        // Realtime Firebase Listener
-        if (db) {
-            onValue(membersDataRef, (snapshot) => {
-                const val = snapshot.val();
-                if (val) {
-                    const loaded = [];
-                    Object.keys(val).forEach(key => {
-                        loaded.push({ id: key, ...val[key] });
-                    });
-                    window.membersList = loaded;
-                } else {
-                    window.membersList = [];
-                }
-                renderAllViews();
-            }, (error) => {
-                console.warn("Koneksi Firebase gagal.", error);
-                renderAllViews();
+// Realtime Firebase Listener
+if (db) {
+    onValue(membersDataRef, (snapshot) => {
+        const val = snapshot.val();
+        if (val) {
+            const loaded = [];
+            Object.keys(val).forEach(key => {
+                loaded.push({ id: key, ...val[key] });
             });
+            window.membersList = loaded;
+        } else {
+            window.membersList = [];
         }
+        renderAllViews();
+    }, (error) => {
+        console.warn("Koneksi Firebase gagal.", error);
+        renderAllViews();
+    });
+}
 
-        // Render Semua Tampilan
-        function renderAllViews() {
-            renderDpdHierarchy();
-            renderDpcGrid();
-        }
-// Render DPD Hierarchy (Sudah di-upgrade tombol WA)
+// Helper untuk format link WhatsApp
+function formatWaLink(rawPhone) {
+    if (!rawPhone) return '#';
+    let cleanNumber = rawPhone.toString().replace(/\D/g, '');
+    if (cleanNumber.startsWith('0')) {
+        cleanNumber = '62' + cleanNumber.slice(1);
+    } else if (!cleanNumber.startsWith('62')) {
+        cleanNumber = '62' + cleanNumber;
+    }
+    return `https://wa.me/${cleanNumber}`;
+}
+
+// Render Semua Tampilan
+function renderAllViews() {
+    renderDpdHierarchy();
+    renderDpcGrid();
+}
+
+// Render DPD Hierarchy
 function renderDpdHierarchy() {
     const container = document.getElementById('dpd-grid');
     const countBadge = document.getElementById('dpd-count');
-    const dpdMembers = window.membersList.filter(m => m.level === 'DPD');
+    const dpdMembers = (window.membersList || []).filter(m => m.level === 'DPD');
 
     if (countBadge) {
         countBadge.innerText = `${dpdMembers.length} Pengurus`;
@@ -332,18 +345,7 @@ function renderDpdHierarchy() {
         const role = m.jabatan || 'Pengurus';
         const rawPhone = m.kontak || '';
         const fotoUrl = m.foto || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=E50914&color=fff`;
-
-        // Format link wa.me
-        let waUrl = '#';
-        if (rawPhone) {
-            let cleanNumber = rawPhone.toString().replace(/\D/g, '');
-            if (cleanNumber.startsWith('0')) {
-                cleanNumber = '62' + cleanNumber.slice(1);
-            } else if (!cleanNumber.startsWith('62')) {
-                cleanNumber = '62' + cleanNumber;
-            }
-            waUrl = `https://wa.me/${cleanNumber}`;
-        }
+        const waUrl = formatWaLink(rawPhone);
 
         return `
             <div class="bg-white rounded-2xl border border-slate-200 p-5 shadow-sm hover:shadow-md transition duration-200 relative overflow-hidden group">
@@ -366,7 +368,7 @@ function renderDpdHierarchy() {
     }).join('');
 }
 
-// Render DPD Cards (Versi ringkas & efisien)
+// Render DPD Cards
 function renderDpdCards(dpdList) {
     const container = document.getElementById('dpd-cards-container');
     if (!container) return;
@@ -381,17 +383,7 @@ function renderDpdCards(dpdList) {
         const role = m.jabatan || m.role || 'Pengurus';
         const rawPhone = m.kontak || m.phone || '';
         const photo = m.foto || m.photo || `https://ui-avatars.com/api/?name=${encodeURIComponent(name)}&background=E50914&color=fff`;
-
-        let waUrl = '#';
-        if (rawPhone) {
-            let cleanNumber = rawPhone.toString().replace(/\D/g, '');
-            if (cleanNumber.startsWith('0')) {
-                cleanNumber = '62' + cleanNumber.slice(1);
-            } else if (!cleanNumber.startsWith('62')) {
-                cleanNumber = '62' + cleanNumber;
-            }
-            waUrl = `https://wa.me/${cleanNumber}`;
-        }
+        const waUrl = formatWaLink(rawPhone);
 
         return `
             <div class="bg-white rounded-2xl border border-slate-200 p-6 shadow-sm text-center flex flex-col items-center hover:shadow-md transition">
@@ -407,17 +399,19 @@ function renderDpdCards(dpdList) {
         `;
     }).join('');
 }
-    // Render DPC Grid (Utuh & Lengkap dengan Link WA)
+
+// Render DPC Grid
 function renderDpcGrid() {
     const container = document.getElementById('dpc-grid');
-    if (!container) return;
+    if (!container || typeof allDpcKecamatan === 'undefined') return;
+
+    const members = window.membersList || [];
 
     container.innerHTML = allDpcKecamatan.map(kec => {
-        const chairman = window.membersList.find(m => m.level === 'DPC' && m.dpc === kec && m.subLevel === 'DPC' && m.jabatan === 'Ketua');
-        const totalMembers = window.membersList.filter(m => m.level === 'DPC' && m.dpc === kec).length;
+        const chairman = members.find(m => m.level === 'DPC' && m.dpc === kec && m.subLevel === 'DPC' && m.jabatan === 'Ketua');
+        const totalMembers = members.filter(m => m.level === 'DPC' && m.dpc === kec).length;
         const chairmanFoto = chairman ? (chairman.foto || `https://ui-avatars.com/api/?name=${encodeURIComponent(chairman.nama)}&background=111111&color=fff`) : null;
         
-        // Link WhatsApp Ketua DPC jika ada
         const waUrl = chairman ? formatWaLink(chairman.kontak) : '#';
 
         return `
@@ -463,7 +457,6 @@ function renderDpcGrid() {
         `;
     }).join('');
 }
-
           
 
         // Global Window Function: Modal DPC
