@@ -193,93 +193,113 @@
                     </div>
 
                     <form id="memberForm" onsubmit="handleFormSubmit(event)" class="space-y-4">
-                        <input type="hidden" id="member-id">
+    <input type="hidden" id="member-id">
 
-                        <!-- Tingkat Kepengurusan -->
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Tingkat Kepengurusan</label>
-                            <div class="grid grid-cols-2 gap-3">
-                                <label class="flex items-center justify-center p-2.5 border rounded-xl cursor-pointer hover:border-psi-red transition text-sm font-semibold text-slate-700 space-x-2 bg-slate-50">
-                                    <input type="radio" name="level" value="DPD" checked onclick="toggleDpcSelect(false)" class="accent-psi-red">
-                                    <span>DPD Cilegon</span>
-                                </label>
-                                <label class="flex items-center justify-center p-2.5 border rounded-xl cursor-pointer hover:border-psi-red transition text-sm font-semibold text-slate-700 space-x-2 bg-slate-50">
-                                    <input type="radio" name="level" value="DPC" onclick="toggleDpcSelect(true)" class="accent-psi-red">
-                                    <span>DPC Kecamatan</span>
-                                </label>
-                            </div>
-                        </div>
+    <!-- Tingkat Kepengurusan -->
+    <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Tingkat Kepengurusan</label>
+        <div class="grid grid-cols-2 gap-3">
+            <label class="flex items-center justify-center p-2.5 border rounded-xl cursor-pointer hover:border-psi-red transition text-sm font-semibold text-slate-700 space-x-2 bg-slate-50">
+                <input type="radio" name="level" value="DPD" checked onclick="toggleKepengurusanType('DPD')" class="accent-psi-red">
+                <span>DPD Cilegon</span>
+            </label>
+            <label class="flex items-center justify-center p-2.5 border rounded-xl cursor-pointer hover:border-psi-red transition text-sm font-semibold text-slate-700 space-x-2 bg-slate-50">
+                <input type="radio" name="level" value="DPC" onclick="toggleKepengurusanType('DPC')" class="accent-psi-red">
+                <span>DPC / DPRT Kecamatan</span>
+            </label>
+        </div>
+    </div>
 
-                        <!-- Pilih DPC Kecamatan (Conditional) -->
-                        <div id="dpc-select-container" class="hidden">
-                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Pilih DPC Kecamatan</label>
-                            <select id="input-dpc" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-psi-red focus:bg-white">
-                                <option value="Cibeber">DPC Cibeber</option>
-                                <option value="Cilegon">DPC Cilegon</option>
-                                <option value="Citangkil">DPC Citangkil</option>
-                                <option value="Ciwandan">DPC Ciwandan</option>
-                                <option value="Grogol">DPC Grogol</option>
-                                <option value="Jombang">DPC Jombang</option>
-                                <option value="Pulomerak">DPC Pulomerak</option>
-                                <option value="Purwakarta">DPC Purwakarta</option>
-                            </select>
-                        </div>
+    <!-- Pilihan Sub-Kategori (Muncul jika pilih DPC) -->
+    <div id="sub-category-container" class="hidden space-y-4 p-4 bg-slate-50 rounded-xl border border-slate-200">
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Pilih Kecamatan (DPC)</label>
+            <select id="input-dpc" onchange="updateKelurahanOptions()" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-psi-red">
+                <option value="Cibeber">DPC Cibeber</option>
+                <option value="Cilegon">DPC Cilegon</option>
+                <option value="Citangkil">DPC Citangkil</option>
+                <option value="Ciwandan">DPC Ciwandan</option>
+                <option value="Grogol">DPC Grogol</option>
+                <option value="Jombang">DPC Jombang</option>
+                <option value="Pulomerak">DPC Pulomerak</option>
+                <option value="Purwakarta">DPC Purwakarta</option>
+            </select>
+        </div>
 
-                        <!-- Nama Lengkap -->
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nama Lengkap</label>
-                            <input type="text" id="input-nama" required placeholder="Contoh: Bro Ahmad Sanusi" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-psi-red focus:bg-white">
-                        </div>
+        <div>
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Posisi / Kategori Wilayah</label>
+            <select id="input-sub-level" onchange="toggleKelurahanSelect()" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-psi-red">
+                <option value="DPC">Pengurus Inti DPC (Kecamatan)</option>
+                <option value="DPRT">Pengurus DPRT (Kelurahan)</option>
+                <option value="Anggota">Anggota / Kader (Kelurahan)</option>
+            </select>
+        </div>
 
-                        <!-- Jabatan -->
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Jabatan Structure</label>
-                            <select id="input-jabatan" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-psi-red focus:bg-white">
-                                <option value="Ketua">Ketua</option>
-                                <option value="Wakil Ketua 1">Wakil Ketua 1</option>
-                                <option value="Wakil Ketua 2">Wakil Ketua 2</option>
-                                <option value="Sekretaris">Sekretaris</option>
-                                <option value="Wakil Sekretaris">Wakil Sekretaris</option>
-                                <option value="Bendahara">Bendahara</option>
-                                <option value="Wakil Bendahara">Wakil Bendahara</option>
-                                <option value="Ketua Harian">Ketua Harian</option>
-                                <option value="Divisi Pemuda & Milenial">Divisi Pemuda & Milenial</option>
-                                <option value="Divisi Media & Komunikasi">Divisi Media & Komunikasi</option>
-                                <option value="Divisi Bappilu">Divisi Bappilu</option>
-                                <option value="Anggota Cadre">Anggota Cadre / Pengurus</option>
-                            </select>
-                        </div>
+        <!-- Pilihan Kelurahan (Muncul jika pilih DPRT atau Anggota) -->
+        <div id="kelurahan-select-wrapper" class="hidden">
+            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Pilih Kelurahan (DPRT)</label>
+            <select id="input-kelurahan" class="w-full px-3.5 py-2.5 bg-white border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-psi-red">
+                <!-- Diisi otomatis via JavaScript berdasarkan kecamatan -->
+            </select>
+        </div>
+    </div>
 
-                        <!-- No HP / Whatsapp -->
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">No. WhatsApp / HP</label>
-                            <input type="text" id="input-kontak" placeholder="081234567890" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-psi-red focus:bg-white">
-                        </div>
+    <!-- Nama Lengkap -->
+    <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Nama Lengkap</label>
+        <input type="text" id="input-nama" required placeholder="Contoh: Bro Ahmad Sanusi" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-psi-red focus:bg-white">
+    </div>
 
-                        <!-- Foto Upload / URL Input -->
-                        <div>
-                            <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Foto Profile</label>
-                            <div class="space-y-2">
-                                <input type="file" id="input-file" accept="image/*" onchange="handleFileUpload(event)" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-psi-red file:text-white hover:file:bg-psi-redhover cursor-pointer">
-                                <div class="text-center text-[10px] text-slate-400 uppercase font-bold tracking-widest my-1">Atau Gunakan URL Gambar</div>
-                                <input type="text" id="input-foto" oninput="updateFotoPreview(this.value)" placeholder="https://..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-psi-red focus:bg-white">
-                            </div>
-                        </div>
+    <!-- Jabatan -->
+    <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Jabatan</label>
+        <select id="input-jabatan" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-psi-red focus:bg-white">
+            <option value="Ketua">Ketua</option>
+            <option value="Wakil Ketua">Wakil Ketua</option>
+            <option value="Sekretaris">Sekretaris</option>
+            <option value="Wakil Sekretaris">Wakil Sekretaris</option>
+            <option value="Bendahara">Bendahara</option>
+            <option value="Wakil Bendahara">Wakil Bendahara</option>
+            <option value="Ketua Harian">Ketua Harian</option>
+            <option value="Divisi Pemuda & Milenial">Divisi OKK</option>
+            <option value="Divisi Media & Komunikasi">Divisi Badan Saksi</option>
+            <option value="Divisi Bappilu">Divisi Bappilu</option>
+            <option value="Divisi Kesehatan">Divisi Kesehatan</option>
+            <option value="Divisi Kewanitaan & Anak">Divisi Kewanitaan & Anak</option>
+            <option value="Anggota / Kader">Anggota / Kader</option>
+        </select>
+    </div>
 
-                        <!-- Foto Live Preview -->
-                        <div class="flex items-center space-x-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
-                            <img id="foto-preview-img" src="https://ui-avatars.com/api/?name=PSI&background=E50914&color=fff" class="w-12 h-12 rounded-full object-cover border border-slate-300">
-                            <div>
-                                <p class="text-xs font-semibold text-slate-700">Preview Foto Profile</p>
-                                <p class="text-[11px] text-slate-400">Pilih file foto atau tempel URL foto</p>
-                            </div>
-                        </div>
+    <!-- No HP / Whatsapp -->
+    <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">No. WhatsApp / HP</label>
+        <input type="text" id="input-kontak" placeholder="081234567890" class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-psi-red focus:bg-white">
+    </div>
 
-                        <button type="submit" class="w-full bg-psi-red hover:bg-psi-redhover text-white font-bold py-3 px-4 rounded-xl shadow-md transition duration-200 flex items-center justify-center space-x-2">
-                            <i class="fa-solid fa-floppy-disk"></i>
-                            <span id="submit-btn-text">Simpan Data Pengurus</span>
-                        </button>
-                    </form>
+    <!-- Foto Upload / URL Input -->
+    <div>
+        <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-1.5">Foto Profile</label>
+        <div class="space-y-2">
+            <input type="file" id="input-file" accept="image/*" onchange="handleFileUpload(event)" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-psi-red file:text-white hover:file:bg-psi-redhover cursor-pointer">
+            <div class="text-center text-[10px] text-slate-400 uppercase font-bold tracking-widest my-1">Atau Gunakan URL Gambar</div>
+            <input type="text" id="input-foto" oninput="updateFotoPreview(this.value)" placeholder="https://..." class="w-full px-3.5 py-2.5 bg-slate-50 border border-slate-300 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-psi-red focus:bg-white">
+        </div>
+    </div>
+
+    <!-- Foto Live Preview -->
+    <div class="flex items-center space-x-3 p-3 bg-slate-50 rounded-xl border border-slate-200">
+        <img id="foto-preview-img" src="https://ui-avatars.com/api/?name=PSI&background=E50914&color=fff" class="w-12 h-12 rounded-full object-cover border border-slate-300">
+        <div>
+            <p class="text-xs font-semibold text-slate-700">Preview Foto Profile</p>
+            <p class="text-[11px] text-slate-400">Pilih file foto atau tempel URL foto</p>
+        </div>
+    </div>
+
+    <button type="submit" class="w-full bg-psi-red hover:bg-psi-redhover text-white font-bold py-3 px-4 rounded-xl shadow-md transition duration-200 flex items-center justify-center space-x-2">
+        <i class="fa-solid fa-floppy-disk"></i>
+        <span id="submit-btn-text">Simpan Data Pengurus</span>
+    </button>
+</form>
                 </div>
 
                 <!-- RIGHT TABLE LIST -->
@@ -334,65 +354,112 @@
     </footer>
 
     <!-- MODAL DRILL-DOWN DPC DETAIL -->
-    <div id="dpcModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
-        <div class="bg-white w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden transform scale-95 transition-all duration-300 border border-slate-200 flex flex-col max-h-[90vh]">
+<div id="dpcModal" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm opacity-0 pointer-events-none transition-all duration-300">
+    <div class="bg-white w-full max-w-3xl rounded-2xl shadow-2xl overflow-hidden transform scale-95 transition-all duration-300 border border-slate-200 flex flex-col max-h-[90vh]">
+        
+        <!-- Modal Header -->
+        <div class="bg-gradient-to-r from-psi-black to-psi-dark text-white p-6 relative">
+            <button onclick="closeDpcModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div class="flex items-center space-x-3">
+                <div class="w-12 h-12 bg-psi-red rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-md">
+                    <i class="fa-solid fa-building-flag"></i>
+                </div>
+                <div>
+                    <span class="text-xs font-bold text-psi-red tracking-widest uppercase bg-white/10 px-2.5 py-0.5 rounded-full">Struktur DPC Kecamatan</span>
+                    <h3 id="modal-dpc-title" class="text-2xl font-extrabold text-white mt-0.5">DPC Cibeber</h3>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal Body Scrollable -->
+        <div class="p-6 overflow-y-auto space-y-6 flex-1">
             
-            <!-- Modal Header -->
-            <div class="bg-gradient-to-r from-psi-black to-psi-dark text-white p-6 relative">
-                <button onclick="closeDpcModal()" class="absolute top-5 right-5 w-8 h-8 rounded-full bg-white/10 hover:bg-white/20 text-white flex items-center justify-center transition">
-                    <i class="fa-solid fa-xmark"></i>
-                </button>
-                <div class="flex items-center space-x-3">
-                    <div class="w-12 h-12 bg-psi-red rounded-xl flex items-center justify-center text-white font-bold text-xl shadow-md">
-                        <i class="fa-solid fa-building-flag"></i>
-                    </div>
-                    <div>
-                        <span class="text-xs font-bold text-psi-red tracking-widest uppercase bg-white/10 px-2.5 py-0.5 rounded-full">Struktur DPC Kecamatan</span>
-                        <h3 id="modal-dpc-title" class="text-2xl font-extrabold text-white mt-0.5">DPC Cibeber</h3>
-                    </div>
+            <!-- 1. Pengurus Inti DPC -->
+            <div>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+                    <i class="fa-solid fa-shield-halved text-psi-red"></i> Pengurus Inti DPC
+                </h4>
+                <div id="modal-core-leaders" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    <!-- Rendered by JS -->
                 </div>
             </div>
 
-            <!-- Modal Body Scrollable -->
-            <div class="p-6 overflow-y-auto space-y-6 flex-1">
-                
-                <!-- Core Leadership -->
-                <div>
-                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
-                        <i class="fa-solid fa-shield-halved text-psi-red"></i> Pengurus Inti DPC
+            <!-- 2. Kepengurusan DPRT (Kelurahan) -->
+            <div>
+                <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-1.5">
+                    <i class="fa-solid fa-landmark text-psi-dark"></i> Kepengurusan DPRT (Kelurahan)
+                </h4>
+                <div id="modal-dprt-container" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- Rendered by JS -->
+                </div>
+            </div>
+
+            <!-- 3. Daftar Anggota / Kader DPC -->
+            <div>
+                <div class="flex items-center justify-between mb-3">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                        <i class="fa-solid fa-users text-psi-dark"></i> Daftar Anggota / Kader
                     </h4>
-                    <div id="modal-core-leaders" class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                        <!-- Rendered by JS -->
-                    </div>
+                    <span id="modal-member-count" class="text-xs bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded-full font-semibold">0 Anggota</span>
                 </div>
 
-                <!-- Cadre / Members List -->
-                <div>
-                    <div class="flex items-center justify-between mb-3">
-                        <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
-                            <i class="fa-solid fa-users text-psi-dark"></i> Daftar Anggota / Kader DPC
-                        </h4>
-                        <span id="modal-member-count" class="text-xs bg-slate-100 text-slate-700 px-2.5 py-0.5 rounded-full font-semibold">0 Anggota</span>
-                    </div>
-
-                    <div id="modal-members-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <!-- Rendered by JS -->
-                    </div>
+                <div id="modal-members-list" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- Rendered by JS -->
                 </div>
-
-            </div>
-
-            <!-- Modal Footer -->
-            <div class="bg-slate-50 px-6 py-4 border-t border-slate-200 flex justify-end">
-                <button onclick="closeDpcModal()" class="px-5 py-2 bg-slate-800 hover:bg-slate-900 text-white font-semibold text-sm rounded-xl transition">
-                    Tutup Detail
-                </button>
             </div>
 
         </div>
-    </div>
 
-    <!-- JAVASCRIPT & FIREBASE REALTIME SETUP -->
+        <!-- Modal Footer -->
+        <div class="bg-slate-50 px-6 py-4 border-t border-slate-200 flex justify-end">
+            <button onclick="closeDpcModal()" class="px-5 py-2 bg-slate-800 hover:bg-slate-900 text-white font-semibold text-sm rounded-xl transition">
+                Tutup Detail
+            </button>
+        </div>
+
+    </div>
+</div>
+
+    <!-- MODAL KELURAHAN (DPRT) -->
+<div id="kelurahanModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 opacity-0 pointer-events-none transition-all duration-300">
+    <div class="bg-white w-full max-w-xl rounded-2xl shadow-2xl border border-slate-200 overflow-hidden transform scale-95 transition-all duration-300 max-h-[90vh] flex flex-col">
+        <!-- Header Modal -->
+        <div class="p-5 border-b border-slate-100 flex items-center justify-between bg-slate-50">
+            <div>
+                <span class="text-[10px] font-bold tracking-widest text-psi-red uppercase">Kepengurusan & Anggota</span>
+                <h3 id="modal-kelurahan-title" class="text-xl font-extrabold text-slate-900">Kelurahan</h3>
+            </div>
+            <button onclick="closeKelurahanModal()" class="w-8 h-8 rounded-full bg-slate-200 text-slate-600 hover:bg-red-50 hover:text-psi-red flex items-center justify-center transition">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Body Modal (Scrollable) -->
+        <div class="p-5 overflow-y-auto space-y-6">
+            <!-- 1. Pengurus DPRT -->
+            <div>
+                <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Pengurus DPRT</h4>
+                <div id="modal-kelurahan-pengurus" class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <!-- Data Pengurus akan di-render lewat JS -->
+                </div>
+            </div>
+
+            <!-- 2. Daftar Anggota Kelurahan -->
+            <div>
+                <div class="flex items-center justify-between mb-3">
+                    <h4 class="text-xs font-bold text-slate-500 uppercase tracking-wider">Anggota / Kader Kelurahan</h4>
+                    <span id="modal-kelurahan-member-count" class="text-[11px] font-semibold bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full">0 Anggota</span>
+                </div>
+                <div id="modal-kelurahan-members-list" class="space-y-2">
+                    <!-- Data Anggota akan di-render lewat JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
         import { getDatabase, ref, set, push, onValue, remove, update } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
@@ -408,40 +475,29 @@
             appId: "1:338793529445:web:e352eaef94d282c5ba468c"
         };
 
-        let db = null;
-        let membersDataRef = null;
-        let isFirebaseConnected = false;
+        const app = initializeApp(firebaseConfig);
+        const db = getDatabase(app);
+        const membersDataRef = ref(db, 'psi_cilegon_members');
+        let isFirebaseConnected = true;
 
-        // Initial Mock Data Fallback
-        const defaultSampleData = [
-            { id: 'dpd-1', level: 'DPD', nama: 'Bro Ir. Herdito Wibowo', jabatan: 'Ketua', dpc: '', kontak: '081288990011', foto: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=300' },
-            { id: 'dpd-2', level: 'DPD', nama: 'Sis Anita Rahayu, S.E.', jabatan: 'Wakil Ketua', dpc: '', kontak: '081377889922', foto: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&q=80&w=300' },
-            { id: 'dpd-3', level: 'DPD', nama: 'Bro Fahmi Agus, S.T.', jabatan: 'Sekretaris', dpc: '', kontak: '081122334455', foto: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=300' },
-            { id: 'dpd-4', level: 'DPD', nama: 'Sis Siska Amanda', jabatan: 'Bendahara', dpc: '', kontak: '081988776655', foto: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&q=80&w=300' },
-            { id: 'dpc-cb-1', level: 'DPC', dpc: 'Cibeber', nama: 'Bro H. Ahmad Rifai', jabatan: 'Ketua', kontak: '081233445566', foto: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=300' },
-            { id: 'dpc-cl-1', level: 'DPC', dpc: 'Cilegon', nama: 'Bro Hendra Wijaya', jabatan: 'Ketua', kontak: '081244556677', foto: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&q=80&w=300' },
-            { id: 'dpc-ct-1', level: 'DPC', dpc: 'Citangkil', nama: 'Sis Fitriani Subagyo', jabatan: 'Ketua', kontak: '081255667788', foto: 'https://images.unsplash.com/photo-1567532939604-b6b5b0db2604?auto=format&fit=crop&q=80&w=300' },
-            { id: 'dpc-cw-1', level: 'DPC', dpc: 'Ciwandan', nama: 'Bro Agus Setiawan', jabatan: 'Ketua', kontak: '081266778899', foto: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&q=80&w=300' },
-            { id: 'dpc-pm-1', level: 'DPC', dpc: 'Pulomerak', nama: 'Bro Captain M. Zaki', jabatan: 'Ketua', kontak: '081299001122', foto: 'https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?auto=format&fit=crop&q=80&w=300' }
-        ];
+        window.membersList = [];
+        
+        // Data Referensi 8 Kecamatan di Cilegon & Kelurahan
+        const allDpcKecamatan = ["Cibeber", "Cilegon", "Citangkil", "Ciwandan", "Grogol", "Jombang", "Pulomerak", "Purwakarta"];
+        
+        const dataKelurahanCilegon = {
+            "Cibeber": ["Cibeber", "Cikerai", "Bulakan", "Kalitimbang", "Karang Asem", "Kedaleman"],
+            "Cilegon": ["Cibeber", "Bendungan", "Jombang Wetan", "Masigit", "Panggung Rawi", "Sukmajaya"],
+            "Citangkil": ["Citangkil", "Banjar Negara", "Deringo", "Lebak Denok", "Samangraya", "Taman Baru", "Warnasari"],
+            "Ciwandan": ["Ciwandan", "Banjar Sari", "Batu Kencana", "Gunung Sugih", "Kubangsari", "Randakari", "Tegal Ratu"],
+            "Grogol": ["Grogol", "Rawa Arum", "Gerem", "Komp. Warnasari"],
+            "Jombang": ["Jombang", "Pondok Cilegon Indah", "Gedong Dalem", "Bojong Menteng"],
+            "Pulomerak": ["Tamansari", "Lebak Gede", "Mekarsari", "Suralaya", "Merak"],
+            "Purwakarta": ["Purwakarta", "Pabean", "Kamanisan", "Kotabumi"]
+        };
 
-        window.membersList = [...defaultSampleData];
-
-        const allDpcKecamatan = [
-            "Cibeber", "Cilegon", "Citangkil", "Ciwandan", 
-            "Grogol", "Jombang", "Pulomerak", "Purwakarta"
-        ];
-
-        try {
-            const app = initializeApp(firebaseConfig);
-            db = getDatabase(app);
-            membersDataRef = ref(db, 'psi_cilegon_members');
-            isFirebaseConnected = true;
-        } catch (e) {
-            console.warn("Firebase initialization warning. Falling back to local state.", e);
-        }
-
-        if (isFirebaseConnected && db) {
+        // --- LISTENER FIREBASE ---
+        if (db) {
             onValue(membersDataRef, (snapshot) => {
                 const val = snapshot.val();
                 if (val) {
@@ -451,18 +507,13 @@
                     });
                     window.membersList = loaded;
                 } else {
-                    defaultSampleData.forEach(item => {
-                        const newRef = push(membersDataRef);
-                        set(newRef, item);
-                    });
+                    window.membersList = [];
                 }
                 renderAllViews();
             }, (error) => {
-                console.warn("Firebase connection issue. Using local data.", error);
+                console.warn("Firebase connection issue.", error);
                 renderAllViews();
             });
-        } else {
-            renderAllViews();
         }
 
         // TAB SWITCHING
@@ -525,7 +576,8 @@
             const container = document.getElementById('dpc-grid');
 
             container.innerHTML = allDpcKecamatan.map(kec => {
-                const chairman = window.membersList.find(m => m.level === 'DPC' && m.dpc === kec && m.jabatan === 'Ketua');
+                // Cari Ketua DPC inti
+                const chairman = window.membersList.find(m => m.level === 'DPC' && m.dpc === kec && m.subLevel === 'DPC' && m.jabatan === 'Ketua');
                 const totalMembers = window.membersList.filter(m => m.level === 'DPC' && m.dpc === kec).length;
                 const chairmanFoto = chairman ? (chairman.foto || `https://ui-avatars.com/api/?name=${encodeURIComponent(chairman.nama)}&background=111111&color=fff`) : null;
 
@@ -560,7 +612,7 @@
                         </div>
 
                         <div class="mt-4 pt-3 border-t border-slate-100 flex items-center justify-between text-xs text-slate-500">
-                            <span><i class="fa-solid fa-users text-slate-400 mr-1"></i> ${totalMembers} Pengurus/Anggota</span>
+                            <span><i class="fa-solid fa-users text-slate-400 mr-1"></i> ${totalMembers} Pengurus/Kader</span>
                             <span class="text-psi-red font-semibold group-hover:underline">Buka Struktur &rarr;</span>
                         </div>
                     </div>
@@ -568,24 +620,25 @@
             }).join('');
         }
 
-        // DPC MODAL DRILL DOWN
+        // DPC MODAL DRILL DOWN (MENGAKOMODASI PENGURUS DPC, DPRT, DAN ANGGOTA)
         window.openDpcModal = function(dpcName) {
             const modal = document.getElementById('dpcModal');
-            document.getElementById('modal-dpc-title').innerText = `DPC ${dpcName}`;
+            document.getElementById('modal-dpc-title').innerText = `DPC Kecamatan ${dpcName}`;
 
             const dpcMembers = window.membersList.filter(m => m.level === 'DPC' && m.dpc === dpcName);
 
-            // Core Leaders
+            // 1. Pengurus Inti DPC (Ketua, Sekretaris, Bendahara)
             const coreRoles = ['Ketua', 'Sekretaris', 'Bendahara'];
             const coreLeadersContainer = document.getElementById('modal-core-leaders');
             
+            const coreMembers = dpcMembers.filter(m => m.subLevel === 'DPC' && coreRoles.includes(m.jabatan));
             coreLeadersContainer.innerHTML = coreRoles.map(role => {
-                const person = dpcMembers.find(m => m.jabatan === role);
+                const person = coreMembers.find(m => m.jabatan === role);
                 const foto = person ? (person.foto || `https://ui-avatars.com/api/?name=${encodeURIComponent(person.nama)}&background=E50914&color=fff`) : null;
 
                 return `
                     <div class="bg-slate-50 p-3.5 rounded-xl border border-slate-200 text-center flex flex-col items-center">
-                        <span class="text-[10px] font-bold uppercase tracking-wider text-psi-red bg-red-50 border border-red-100 px-2 py-0.5 rounded-full mb-2">${role}</span>
+                        <span class="text-[10px] font-bold uppercase tracking-wider text-psi-red bg-red-50 border border-red-100 px-2 py-0.5 rounded-full mb-2">${role} DPC</span>
                         ${person ? `
                             <img src="${foto}" class="w-14 h-14 rounded-full object-cover border border-slate-300 mb-2" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(person.nama)}&background=E50914&color=fff'">
                             <h5 class="font-extrabold text-sm text-slate-900">${person.nama}</h5>
@@ -600,23 +653,66 @@
                 `;
             }).join('');
 
-            // Other Members
-            const otherMembers = dpcMembers.filter(m => !coreRoles.includes(m.jabatan));
+            // 2. Pengurus DPRT (Kelurahan) & Anggota
+            const dprtContainer = document.getElementById('modal-dprt-container');
             const membersContainer = document.getElementById('modal-members-list');
-            document.getElementById('modal-member-count').innerText = `${dpcMembers.length} Total Pengurus`;
+            
+            const listKelurahan = dataKelurahanCilegon[dpcName] || [];
+            const pengurusDprt = dpcMembers.filter(m => m.subLevel === 'DPRT');
+            const anggotaList = dpcMembers.filter(m => m.subLevel === 'Anggota');
 
-            if (otherMembers.length === 0) {
-                membersContainer.innerHTML = `<div class="col-span-full text-center py-4 text-xs text-slate-400 italic bg-slate-50 rounded-xl">Belum ada anggota / pengurus divisi lainnya di DPC ini.</div>`;
+            document.getElementById('modal-member-count').innerText = `${anggotaList.length} Anggota`;
+
+            // Render DPRT per Kelurahan (Sudah bisa diklik untuk popup)
+if (listKelurahan.length > 0) {
+    dprtContainer.innerHTML = listKelurahan.map(kel => {
+        const pengurusKel = pengurusDprt.find(m => m.kelurahan === kel);
+        const fotoKel = pengurusKel ? (pengurusKel.foto || `https://ui-avatars.com/api/?name=${encodeURIComponent(pengurusKel.nama)}&background=0F172A&color=fff`) : null;
+
+        return `
+            <div onclick="openKelurahanModal('${dpcName}', '${kel}')" class="bg-slate-50 p-3 rounded-xl border border-slate-200 flex items-center justify-between hover:border-psi-red hover:bg-red-50/30 transition cursor-pointer group">
+                <div class="flex items-center space-x-3">
+                    ${pengurusKel ? `
+                        <img src="${fotoKel}" class="w-9 h-9 rounded-full object-cover border border-slate-300">
+                        <div>
+                            <h5 class="text-xs font-bold text-slate-800 group-hover:text-psi-red transition">${pengurusKel.nama}</h5>
+                            <p class="text-[10px] text-psi-red font-semibold">${pengurusKel.jabatan}</p>
+                        </div>
+                    ` : `
+                        <div class="w-9 h-9 rounded-full bg-slate-200 flex items-center justify-center text-slate-400 text-xs"><i class="fa-solid fa-landmark"></i></div>
+                        <div>
+                            <h5 class="text-xs font-bold text-slate-800 group-hover:text-psi-red transition">Kel. ${kel}</h5>
+                            <p class="text-[10px] text-slate-400 italic">Klik untuk lihat pengurus & anggota</p>
+                        </div>
+                    `}
+                </div>
+                <div class="flex items-center space-x-2">
+                    <span class="text-[10px] bg-red-50 text-psi-red font-bold px-2 py-1 rounded-md border border-red-100">${kel}</span>
+                    <i class="fa-solid fa-chevron-right text-xs text-slate-400 group-hover:text-psi-red transition"></i>
+                </div>
+            </div>
+        `;
+    }).join('');
+} else {
+                dprtContainer.innerHTML = `<p class="col-span-full text-slate-400 text-xs py-2">Belum ada data kelurahan.</p>`;
+            }
+
+            // Render Anggota / Kader
+            if (anggotaList.length === 0) {
+                membersContainer.innerHTML = `<div class="col-span-full text-center py-4 text-xs text-slate-400 italic bg-slate-50 rounded-xl">Belum ada data anggota / kader di wilayah ini.</div>`;
             } else {
-                membersContainer.innerHTML = otherMembers.map(m => {
+                membersContainer.innerHTML = anggotaList.map(m => {
                     const foto = m.foto || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.nama)}&background=111111&color=fff`;
                     return `
-                        <div class="flex items-center space-x-3 p-2.5 bg-slate-50 rounded-xl border border-slate-200">
-                            <img src="${foto}" class="w-10 h-10 rounded-full object-cover border border-slate-300" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.nama)}&background=111111&color=fff'">
-                            <div>
-                                <h6 class="font-bold text-xs text-slate-900">${m.nama}</h6>
-                                <p class="text-[11px] text-psi-red font-medium">${m.jabatan}</p>
+                        <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl border border-slate-200">
+                            <div class="flex items-center space-x-3">
+                                <img src="${foto}" class="w-9 h-9 rounded-full object-cover border border-slate-300" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.nama)}&background=111111&color=fff'">
+                                <div>
+                                    <h6 class="font-bold text-xs text-slate-900">${m.nama}</h6>
+                                    <p class="text-[10px] text-slate-500">${m.jabatan || 'Kader'}</p>
+                                </div>
                             </div>
+                            <span class="text-[10px] bg-slate-200 text-slate-700 font-medium px-2 py-0.5 rounded">${m.kelurahan || 'Cilegon'}</span>
                         </div>
                     `;
                 }).join('');
@@ -632,11 +728,44 @@
             modal.querySelector('div').classList.add('scale-95');
         };
 
-        // ADMIN FORM & TABLE
-        window.toggleDpcSelect = function(show) {
-            const container = document.getElementById('dpc-select-container');
-            if (show) container.classList.remove('hidden');
-            else container.classList.add('hidden');
+        // ADMIN FORM & PANEL LOGIC
+        window.toggleKepengurusanType = function(type) {
+            const subContainer = document.getElementById('sub-category-container');
+            if (type === 'DPC') {
+                subContainer.classList.remove('hidden');
+                updateKelurahanOptions();
+            } else {
+                subContainer.classList.add('hidden');
+            }
+        };
+
+        window.updateKelurahanOptions = function() {
+            const kecamatanSelect = document.getElementById('input-dpc');
+            const kelurahanSelect = document.getElementById('input-kelurahan');
+            if (!kecamatanSelect || !kelurahanSelect) return;
+            
+            const selectedKecamatan = kecamatanSelect.value;
+            kelurahanSelect.innerHTML = '';
+            const listKel = dataKelurahanCilegon[selectedKecamatan] || ["Pusat Kelurahan"];
+            
+            listKel.forEach(kel => {
+                const opt = document.createElement('option');
+                opt.value = kel;
+                opt.textContent = `Kelurahan ${kel}`;
+                kelurahanSelect.appendChild(opt);
+            });
+        };
+
+        window.toggleKelurahanSelect = function() {
+            const subLevel = document.getElementById('input-sub-level').value;
+            const kelurahanWrapper = document.getElementById('kelurahan-select-wrapper');
+            
+            if (subLevel === 'DPRT' || subLevel === 'Anggota') {
+                kelurahanWrapper.classList.remove('hidden');
+                updateKelurahanOptions();
+            } else {
+                kelurahanWrapper.classList.add('hidden');
+            }
         };
 
         window.updateFotoPreview = function(url) {
@@ -665,43 +794,40 @@
             e.preventDefault();
             const id = document.getElementById('member-id').value;
             const level = document.querySelector('input[name="level"]:checked').value;
-            const dpc = level === 'DPC' ? document.getElementById('input-dpc').value : '';
+            
+            let dpc = '';
+            let subLevel = 'DPD';
+            let kelurahan = '';
+
+            if (level === 'DPC') {
+                dpc = document.getElementById('input-dpc').value;
+                subLevel = document.getElementById('input-sub-level').value;
+                if (subLevel === 'DPRT' || subLevel === 'Anggota') {
+                    kelurahan = document.getElementById('input-kelurahan').value;
+                }
+            }
+
             const nama = document.getElementById('input-nama').value.trim();
             const jabatan = document.getElementById('input-jabatan').value;
             const kontak = document.getElementById('input-kontak').value.trim();
             const foto = document.getElementById('input-foto').value.trim();
 
-            const payload = { level, dpc, nama, jabatan, kontak, foto };
+            const payload = { level, dpc, subLevel, kelurahan, nama, jabatan, kontak, foto };
 
-            if (isFirebaseConnected && db) {
+            if (db) {
                 if (id) {
-                    // Update
                     const itemRef = ref(db, `psi_cilegon_members/${id}`);
                     update(itemRef, payload).then(() => {
                         showToast('Data berhasil diperbarui!');
                         resetForm();
                     });
                 } else {
-                    // Add
                     const newRef = push(membersDataRef);
                     set(newRef, payload).then(() => {
                         showToast('Data pengurus baru ditambahkan!');
                         resetForm();
                     });
                 }
-            } else {
-                // Local state fallback
-                if (id) {
-                    const index = window.membersList.findIndex(m => m.id === id);
-                    if (index !== -1) window.membersList[index] = { id, ...payload };
-                    showToast('Data diperbarui (Lokal)');
-                } else {
-                    const newId = 'local-' + Date.now();
-                    window.membersList.push({ id: newId, ...payload });
-                    showToast('Data ditambahkan (Lokal)');
-                }
-                resetForm();
-                renderAllViews();
             }
         };
 
@@ -711,7 +837,7 @@
             document.getElementById('form-title').innerText = 'Input Data Pengurus / Anggota';
             document.getElementById('submit-btn-text').innerText = 'Simpan Data Pengurus';
             document.getElementById('cancel-edit-btn').classList.add('hidden');
-            toggleDpcSelect(false);
+            toggleKepengurusanType('DPD');
             updateFotoPreview('');
         };
 
@@ -731,10 +857,15 @@
             });
 
             if (member.level === 'DPC') {
-                toggleDpcSelect(true);
+                toggleKepengurusanType('DPC');
                 document.getElementById('input-dpc').value = member.dpc;
+                document.getElementById('input-sub-level').value = member.subLevel || 'DPC';
+                toggleKelurahanSelect();
+                if (member.kelurahan) {
+                    document.getElementById('input-kelurahan').value = member.kelurahan;
+                }
             } else {
-                toggleDpcSelect(false);
+                toggleKepengurusanType('DPD');
             }
 
             updateFotoPreview(member.foto);
@@ -742,22 +873,17 @@
             document.getElementById('submit-btn-text').innerText = 'Update Data Pengurus';
             document.getElementById('cancel-edit-btn').classList.remove('hidden');
 
-            // Scroll to form
             window.scrollTo({ top: 0, behavior: 'smooth' });
         };
 
         window.deleteMember = function(id) {
-            if (!confirm('Apakah Anda yakin ingin menghapus data pengurus ini?')) return;
+            if (!confirm('Apakah Anda yakin ingin menghapus data ini?')) return;
 
-            if (isFirebaseConnected && db) {
+            if (db) {
                 const itemRef = ref(db, `psi_cilegon_members/${id}`);
                 remove(itemRef).then(() => {
                     showToast('Data berhasil dihapus');
                 });
-            } else {
-                window.membersList = window.membersList.filter(m => m.id !== id);
-                showToast('Data dihapus (Lokal)');
-                renderAllViews();
             }
         };
 
@@ -795,7 +921,7 @@
                             ${m.level === 'DPD' ? `
                                 <span class="bg-red-50 text-psi-red text-[10px] font-bold px-2 py-0.5 rounded border border-red-100">DPD CILEGON</span>
                             ` : `
-                                <span class="bg-slate-800 text-white text-[10px] font-bold px-2 py-0.5 rounded">DPC ${m.dpc}</span>
+                                <span class="bg-slate-800 text-white text-[10px] font-bold px-2 py-0.5 rounded">DPC ${m.dpc} ${m.kelurahan ? '('+m.kelurahan+')' : ''}</span>
                             `}
                         </td>
                         <td class="py-3 px-3 text-center">
@@ -813,7 +939,6 @@
             }).join('');
         };
 
-        // SEARCH HANDLE
         window.handleSearch = function(query) {
             const q = query.toLowerCase().trim();
             if (!q) {
@@ -824,10 +949,10 @@
             const filtered = window.membersList.filter(m => 
                 m.nama.toLowerCase().includes(q) || 
                 m.jabatan.toLowerCase().includes(q) ||
-                (m.dpc && m.dpc.toLowerCase().includes(q))
+                (m.dpc && m.dpc.toLowerCase().includes(q)) ||
+                (m.kelurahan && m.kelurahan.toLowerCase().includes(q))
             );
 
-            // Temporarily replace list for render
             const original = [...window.membersList];
             window.membersList = filtered;
             renderDpdHierarchy();
@@ -835,7 +960,6 @@
             window.membersList = original;
         };
 
-        // TOAST NOTIFICATION
         function showToast(message) {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
@@ -848,8 +972,69 @@
             }, 3000);
         }
 
-        // Initialize view render
         renderAllViews();
+        // --- KELURAHAN (DPRT) MODAL DRILL DOWN ---
+window.openKelurahanModal = function(dpcName, kelurahanName) {
+    const modal = document.getElementById('kelurahanModal');
+    document.getElementById('modal-kelurahan-title').innerText = `Kelurahan ${kelurahanName} (${dpcName})`;
+
+    // Filter anggota & pengurus khusus kelurahan ini
+    const kelMembers = window.membersList.filter(m => m.dpc === dpcName && m.kelurahan === kelurahanName);
+
+    // 1. Pengurus DPRT Kelurahan ini
+    const pengurusDprt = kelMembers.filter(m => m.subLevel === 'DPRT');
+    const pengurusContainer = document.getElementById('modal-kelurahan-pengurus');
+
+    if (pengurusDprt.length === 0) {
+        pengurusContainer.innerHTML = `<div class="col-span-full text-center py-4 text-xs text-slate-400 italic bg-slate-50 rounded-xl">Belum ada pengurus DPRT yang terdaftar di Kelurahan ${kelurahanName}.</div>`;
+    } else {
+        pengurusContainer.innerHTML = pengurusDprt.map(m => {
+            const foto = m.foto || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.nama)}&background=E50914&color=fff`;
+            return `
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-center flex flex-col items-center">
+                    <span class="text-[9px] font-bold uppercase text-psi-red bg-red-50 border border-red-100 px-2 py-0.5 rounded-full mb-2">${m.jabatan || 'Pengurus DPRT'}</span>
+                    <img src="${foto}" class="w-12 h-12 rounded-full object-cover border border-slate-300 mb-2" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.nama)}&background=E50914&color=fff'">
+                    <h5 class="font-extrabold text-xs text-slate-900">${m.nama}</h5>
+                    <p class="text-[10px] text-slate-500 mt-0.5">${m.kontak || '-'}</p>
+                </div>
+            `;
+        }).join('');
+    }
+
+    // 2. Anggota / Kader Kelurahan ini
+    const anggotaList = kelMembers.filter(m => m.subLevel === 'Anggota');
+    const membersContainer = document.getElementById('modal-kelurahan-members-list');
+    document.getElementById('modal-kelurahan-member-count').innerText = `${anggotaList.length} Anggota`;
+
+    if (anggotaList.length === 0) {
+        membersContainer.innerHTML = `<div class="text-center py-4 text-xs text-slate-400 italic bg-slate-50 rounded-xl">Belum ada data anggota di Kelurahan ${kelurahanName}.</div>`;
+    } else {
+        membersContainer.innerHTML = anggotaList.map(m => {
+            const foto = m.foto || `https://ui-avatars.com/api/?name=${encodeURIComponent(m.nama)}&background=111111&color=fff`;
+            return `
+                <div class="flex items-center justify-between p-2.5 bg-slate-50 rounded-xl border border-slate-200">
+                    <div class="flex items-center space-x-3">
+                        <img src="${foto}" class="w-8 h-8 rounded-full object-cover border border-slate-300" onerror="this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.nama)}&background=111111&color=fff'">
+                        <div>
+                            <h6 class="font-bold text-xs text-slate-900">${m.nama}</h6>
+                            <p class="text-[10px] text-slate-500">${m.kontak || 'Kader/Anggota'}</p>
+                        </div>
+                    </div>
+                    <span class="text-[10px] bg-slate-200 text-slate-700 font-medium px-2 py-0.5 rounded">Anggota</span>
+                </div>
+            `;
+        }).join('');
+    }
+
+    modal.classList.remove('opacity-0', 'pointer-events-none');
+    modal.querySelector('div').classList.remove('scale-95');
+};
+
+window.closeKelurahanModal = function() {
+    const modal = document.getElementById('kelurahanModal');
+    modal.classList.add('opacity-0', 'pointer-events-none');
+    modal.querySelector('div').classList.add('scale-95');
+};
     </script>
 </body>
 </html>
